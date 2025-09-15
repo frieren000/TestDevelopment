@@ -21,7 +21,7 @@ def search_users_info(request):
     
     try:
         search_user_sql = f'''
-        select * form users where 1 = 1
+        select * from users where 1 = 1
         '''
         params = []
         user_id = request.GET.get('id')
@@ -42,7 +42,7 @@ def search_users_info(request):
         
         connect = pymysql.connect(**base_tools.database_config)
         cursor = connect.cursor()
-        cursor.execute(search_user_sql)
+        cursor.execute(search_user_sql, params)
         
         for col in cursor.description:
             columns.append(col[0])
@@ -51,7 +51,7 @@ def search_users_info(request):
         data_list = [dict(zip(columns, row)) for row in rows]
         
         data_content_dict = {
-            'code': 200,
+            'status': 200,
             'message': 'success',
             'data': data_list,
         }
@@ -59,7 +59,7 @@ def search_users_info(request):
         
     except Exception as e:
         data_content_dict = {
-            'code':500,
+            'status':500,
             'message': 'failed',
             'data': str(e),
         }
