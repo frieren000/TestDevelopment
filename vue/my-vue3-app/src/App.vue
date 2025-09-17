@@ -1,12 +1,24 @@
-<template>
+<!-- <template>
   <div>
     <h1>Vue + Django 整合示例</h1>
     <p>{{ message }}</p>
     <button @click="fetchData">获取数据</button>
   </div>
-</template>
 
-<script>
+  <div id="app">
+    <nav>
+      <router-link to="/">首页</router-link> |
+      <router-link to="/about">关于我们</router-link> |
+      <router-link to="/users">用户列表</router-link>
+    </nav>
+    <hr />
+    <!-- 路由出口：匹配的组件会渲染在这里 -->
+    <!-- <router-view />
+  </div>
+
+</template> -->
+
+<!-- <script>
 import axios from 'axios'
 
 export default {
@@ -29,3 +41,32 @@ export default {
   }
 }
 </script>
+
+<style>
+nav {
+  padding: 10px;
+  background: #f8f8f8;
+} -->
+<!-- </style> -->
+
+
+<!-- src/App.vue -->
+<template>
+  <div id="app">
+    <nav>
+      <router-link to="/">首页</router-link> |
+      <router-link to="/about">关于我们</router-link> |
+      <router-link to="/users">用户列表</router-link>
+    </nav>
+    <hr />
+    <!-- 路由出口：匹配的组件会渲染在这里 -->
+    <router-view />
+  </div>
+</template>
+
+<style>
+nav {
+  padding: 10px;
+  background: #f8f8f8;
+}
+</style>
