@@ -72,3 +72,55 @@ def search_users_info(request):
             connect.close()
             
     return Response(data_content_dict,status=status)
+
+@api_view(['POST'])
+def user_register(request):
+    cursor = None
+    connect = None
+    try:
+        data = request.data
+        
+        name = data.get('name')
+        phone_num = data.get('phone_num')
+        email = data.get('email')
+        company = data.get('company')
+        job = data.get('job')
+        ipv4 = data.get('ipv4')
+
+        if not name:
+            return Response({'message': '用户名不能为空'}, status=400)
+
+        if not all([phone_num, email, company, job, ipv4]):
+            return Response({'message': '请填写完整信息！'}, status=400)
+
+        connect = pymysql.connect(**base_tools.database_config)
+        cursor = connect.cursor()
+
+        # 检查用户是否已存在
+        cursor.execute("SELECT 1 FROM users WHERE name = %s", (name,))
+        if cursor.fetchone():
+            return Response({'message': '用户已存在!'}, status=400)
+
+        # 插入新用户
+        cursor.execute('''
+            INSERT INTO users(name, phone_num, email, company, job, ipv4) 
+            VALUES (%s, %s, %s, %s, %s, %s)
+        ''', [name, phone_num, email, company, job, ipv4])
+        
+        connect.commit()
+
+        return Response({
+            'code': 200,
+            'message': '注册成功!'
+        }, status=201)
+
+    except Exception as e:
+        return Response({
+            'message': f'服务器错误: {str(e)}'
+        }, status=500)
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connect:
+            connect.close()
