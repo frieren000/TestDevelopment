@@ -56,7 +56,8 @@ nav {
     <nav>
       <router-link to="/">首页</router-link> |
       <router-link to="/about">关于我们</router-link> |
-      <router-link to="/users">用户列表</router-link>
+      <router-link to="/users">用户列表</router-link> |
+      <router-link to="/login">用户登录</router-link>
     </nav>
     <hr />
     <!-- 路由出口：匹配的组件会渲染在这里 -->
