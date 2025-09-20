@@ -5,3 +5,4 @@
 **/.gitinore
 ~/codes/tools
 **/test_tools/test.**
+**/uploader_files/**

@@ -1,6 +1,7 @@
 import pymysql
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.core.files.storage import FileSystemStorage
 from tools import base_tools
 
 
@@ -124,3 +125,38 @@ def user_register(request):
             cursor.close()
         if connect:
             connect.close()
+            
+@api_view(['POST'])
+def files_uploader(request):
+    # 文件上传接口
+    try:
+        if 'file' not in request.FILES:
+            message_dict = {
+                'error_msg': '未选择文件!'
+            }
+            status = 400
+            
+            return Response(message_dict, status=status)
+        
+        else:
+            upload_file = request.FILES['file']
+            save_file = FileSystemStorage(location=base_tools.upload_file_path)
+            file_name = save_file.save(upload_file.name, upload_file)
+            message_dict = {
+                'message': '文件上传成功!',
+                'file_name': file_name,
+            }
+            status = 200
+            
+            return Response(message_dict, status=status)
+        
+    except Exception as e:
+        err_msg = str(e)
+        
+        message_dict = {
+            'message': '文件上传失败!',
+            'error_msg': err_msg,
+        }
+        status = 400
+        
+        return Response(message_dict, status=status)

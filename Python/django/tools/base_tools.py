@@ -7,3 +7,6 @@ database_config = {
     'database': 'test',
     'charset': 'utf8mb4',
 }
+
+# 上传文件的存储路径
+upload_file_path = '../django/uploader_files'

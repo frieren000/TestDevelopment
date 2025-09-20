@@ -5,4 +5,5 @@ urlpatterns = [
     path('hello/', views.hello),
     path('search_users_info/', views.search_users_info),
     path('user_register/', views.user_register),
+    path('files_upload/', views.files_uploader),
 ]
