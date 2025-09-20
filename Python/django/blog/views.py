@@ -18,8 +18,6 @@ def hello(request):
 def search_users_info(request):
     # 查找用户信息
     data_list, columns = [], []
-    
-    
     try:
         search_user_sql = f'''
         select * from users where 1 = 1
