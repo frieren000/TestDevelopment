@@ -5,27 +5,33 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import UserList from '../views/UserList.vue'
 import UserLogin from '../views/UserLogin.vue'
+import Heart from '../views/Heart.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
     path: '/about',
     name: 'About',
-    component: About
+    component: About,
   },
   {
     path: '/users',
     name: 'UserList',
-    component: UserList
+    component: UserList,
   },
   {
     path: '/login',
     name: 'UsersLogin',
-    component: UserLogin
+    component: UserLogin,
+  },
+  {
+    path: '/Heart',
+    name: 'Heart',
+    component: Heart,
   },
 ]
 
