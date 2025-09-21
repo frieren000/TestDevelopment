@@ -6,6 +6,7 @@ import About from '../views/About.vue'
 import UserList from '../views/UserList.vue'
 import UserLogin from '../views/UserLogin.vue'
 import Heart from '../views/Heart.vue'
+import Test from '../views/Test.vue'
 
 const routes = [
   {
@@ -32,6 +33,11 @@ const routes = [
     path: '/Heart',
     name: 'Heart',
     component: Heart,
+  },
+    {
+    path: '/Test',
+    name: 'Test',
+    component: Test,
   },
 ]
 

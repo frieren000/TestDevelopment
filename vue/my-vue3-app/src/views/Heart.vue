@@ -1,6 +1,5 @@
 <template>
   <div id="particles-js" class="background">
-    <!-- 其他代码 -->
     <div class="heart-container">
     <div
       class="heart"
