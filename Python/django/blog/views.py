@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.files.storage import FileSystemStorage
 from tools import base_tools
-
+from .models import Users
 
 @api_view(['GET'])
 def hello(request):
@@ -158,3 +158,24 @@ def files_uploader(request):
         status = 400
         
         return Response(message_dict, status=status)
+
+@api_view(['GET'])
+def search_user_info_by_model(requests):
+    # 通过model文件查询数据库
+    users = Users.objects.all()
+    user_list = []
+    for user in users:
+            user_list.append({
+                'name': user.name,
+                'phone_num': user.phone_num,
+                'email': user.email,
+                'company': user.company,
+                'job': user.job,
+                'ipv4': user.ipv4,
+            })
+        
+    return Response({
+        'code': 200,
+        'message': 'success',
+        'data': user_list,
+    })

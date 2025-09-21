@@ -6,4 +6,5 @@ urlpatterns = [
     path('search_users_info/', views.search_users_info),
     path('user_register/', views.user_register),
     path('files_upload/', views.files_uploader),
+    path('search_user_info_by_model/', views.search_user_info_by_model),
 ]
