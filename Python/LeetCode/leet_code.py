@@ -16,10 +16,21 @@ def isPalindrome(int):
     else:
         return False
 
-# 3.两数相加
-def addTwoNumbers(list_1, list_2):
-    print(list_1, list_2)
+# 3.两数相加 -- 待尝试
+# def addTwoNumbers(list_1, list_2):
+#     return 0
     
-l1 = [9,9,9,9,9,9,9]
-l2 = [9,9,9,9]
-addTwoNumbers(l1, l2)
+# l1 = [9,9,9,9,9,9,9]
+# l2 = [9,9,9,9]
+# addTwoNumbers(l1, l2)
+
+# 4.删除有序数组中的重复项
+def removeDuplicates(nums):
+    new_nums_list = []
+    for i in range(0, len(nums)):
+        if nums[i] not in new_nums_list:
+            new_nums_list.append(nums[i])
+    nums[:] = new_nums_list
+    # nums = new_nums_list 并没有修改原列表,只是重新绑定了变量
+    # nums[:] = new_nums_list是一个切片赋值操作,清空原列表的所有元素并重新赋值
+    return len(nums)
