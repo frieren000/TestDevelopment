@@ -140,5 +140,43 @@ def largestTriangleArea(points):
     
     return float(max_area)
 
-points = [[0,0],[0,1],[1,0],[0,2],[2,0]]
-print(largestTriangleArea(points))
+# 7.最大三角形周长 -- 暴力解法 -- 大数据容易超时
+def largestPerimeter(nums):
+    max_perimeter = 0
+    nums.sort(reverse=True)
+    # 保证越靠前的三个数周长越大
+    for i in range(0, len(nums)):
+        for j in range(i + 1, len(nums)):
+            for k in range(j + 1, len(nums)):
+                perimeter = nums[i] + nums[j] + nums[k]
+                if (nums[i] < nums[j] + nums[k]) and  perimeter > max_perimeter:
+                    max_perimeter = perimeter
+    
+    return max_perimeter
+
+# 7.1 最大三角形周长 -- 更快的解法
+def largestPerimeterByFast(nums):
+    max_perimeter = 0
+    nums.sort(reverse=True)
+    for i in range(0, len(nums) - 2):
+        perimeter = nums[i] + nums[i + 1] + nums[i + 2]
+        if nums[i + 2] + nums[i + 1] > nums[i]:
+            max_perimeter = perimeter
+            break
+        # 这里可以使用break在找到第一组符合条件的三个数字时直接退出循环
+    return max_perimeter
+
+# 8. 最长公共前缀
+def longestCommonPrefix(strs):
+    # 对字符串列表进行一个升序排序 -- 字典序列
+    # 排序的作用: 按字典序排序后,差异最大的两个字符会出现在两端
+    strs.sort()
+    first_str = strs[0]
+    last_str = strs[-1]
+    for i in range(len(first_str)):
+        if i < len(last_str) and first_str[i] == last_str[i]:
+            continue
+        else:
+            return first_str[:i]
+    # 当first_str == last_str时,first_str为最大公共前缀,必须进行显示返回
+    return first_str
