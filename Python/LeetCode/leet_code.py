@@ -182,6 +182,7 @@ def longestCommonPrefix(strs):
     return first_str
 
 # 9. 多边形三角剖分的最低得分 -- 区间DP(动态规划)
+# TODO 还是得练DP
 def minScoreTriangulation(values):
     n = len(values)
     # dp[i][j] 表示从 i 到 j 构成的多边形的最小得分(i < j)
@@ -220,6 +221,3 @@ def triangularSumFast(nums):
         answer += now*num
         now = now * (total - i) // ( i + 1)
     return answer % 10
-
-nums = [1,2,3,4,5]
-print(triangularSumFast(nums))
