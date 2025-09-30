@@ -180,3 +180,46 @@ def longestCommonPrefix(strs):
             return first_str[:i]
     # 当first_str == last_str时,first_str为最大公共前缀,必须进行显示返回
     return first_str
+
+# 9. 多边形三角剖分的最低得分 -- 区间DP(动态规划)
+def minScoreTriangulation(values):
+    n = len(values)
+    # dp[i][j] 表示从 i 到 j 构成的多边形的最小得分(i < j)
+    dp = [[0] * n for _ in range(n)]
+
+    for length in range(3, n + 1):
+        for i in range(n - length + 1):
+            j = i + length - 1
+            dp[i][j] = float('inf')
+            for k in range(i + 1, j):
+                dp[i][j] = min(
+                    dp[i][j],
+                    dp[i][k] + dp[k][j] + values[i] * values[k] * values[j]
+                )
+    return dp[0][n - 1]
+        
+# 10. 数组的三角和
+def triangularSum(nums):
+    len_nums = len(nums)
+    if len_nums == 1:
+        return nums[0]
+    else:
+        new_nums_list = []
+        for i in range(0, len_nums - 1):
+            new_nums = (nums[i] + nums[i + 1]) % 10
+            new_nums_list.append(new_nums)
+    
+    return triangularSum(new_nums_list)
+
+# 10.1 一个更快的解法
+def triangularSumFast(nums):
+    total = len(nums)-1
+    now = 1
+    answer = 0
+    for i,num in enumerate(nums):
+        answer += now*num
+        now = now * (total - i) // ( i + 1)
+    return answer % 10
+
+nums = [1,2,3,4,5]
+print(triangularSumFast(nums))
