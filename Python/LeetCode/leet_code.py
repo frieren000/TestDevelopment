@@ -220,4 +220,11 @@ def triangularSumFast(nums):
     for i,num in enumerate(nums):
         answer += now*num
         now = now * (total - i) // ( i + 1)
+        
     return answer % 10
+
+# 11. 换水问题
+def numWaterBottles(numBottles, numExchange):
+    ans = numBottles + (numBottles - 1) // (numExchange - 1)
+    
+    return ans

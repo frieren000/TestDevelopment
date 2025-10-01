@@ -1,3 +1,4 @@
+import json
 import pymysql
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -160,7 +161,7 @@ def files_uploader(request):
         return Response(message_dict, status=status)
 
 @api_view(['GET'])
-def search_user_info_by_model(requests):
+def search_user_info_by_model(request):
     # 通过model文件查询数据库
     users = Users.objects.all()
     user_list = []
@@ -179,3 +180,69 @@ def search_user_info_by_model(requests):
         'message': 'success',
         'data': user_list,
     })
+    
+@api_view(['POST'])
+# 两数之和
+def two_sum(request):
+    try:
+        data = json.loads(request.body)
+        nums = data['nums']
+        target = data['target']
+        
+        two_sum_list = []
+        left_point = 0
+        right_point = len(nums) - 1
+        while left_point < right_point:
+            sums = nums[left_point] + nums[right_point]
+            if sums < target:
+                left_point += 1
+            elif sums == target:
+                two_sum_list = [left_point + 1, right_point + 1]
+                break
+            else:
+                right_point -= 1
+                
+        
+        message_dict = {
+            'code': 200,
+            'message': 'success',
+            'data': two_sum_list,
+        }
+        status = 200
+    
+    except Exception as e:
+        message_dict = {
+            'code': 400,
+            'message': 'failed',
+            'data': str(e),
+        }
+        status = 400
+        
+    return Response(message_dict, status=status)
+
+@api_view(['POST'])
+# 换水问题
+def num_water_bottles(request):
+    try:
+        data = json.loads(request.body)
+        num_bottles = data['numBottles']
+        num_exchange = data['numExchange']
+        
+        ans = num_bottles + (num_bottles - 1) // (num_exchange - 1)
+        
+        message_dict = {
+            'code': 200,
+            'message': 'success',
+            'data': ans,
+        }
+        status = 200
+        
+    except Exception as e:
+        message_dict = {
+            'code': 400,
+            'message': 'failed',
+            'data': str(e),
+        }
+        status = 400
+        
+    return Response(message_dict, status=status)
