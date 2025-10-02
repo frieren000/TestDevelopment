@@ -218,7 +218,7 @@ def triangularSumFast(nums):
     now = 1
     answer = 0
     for i,num in enumerate(nums):
-        answer += now*num
+        answer += now * num
         now = now * (total - i) // ( i + 1)
         
     return answer % 10
@@ -227,4 +227,14 @@ def triangularSumFast(nums):
 def numWaterBottles(numBottles, numExchange):
     ans = numBottles + (numBottles - 1) // (numExchange - 1)
     
+    return ans
+
+# 12. 换水问题 II
+def maxBottlesDrunk( numBottles, numExchange):
+    ans = numBottles
+    empty = numBottles
+    while empty >= numExchange:
+        ans += 1
+        empty -= numExchange - 1
+        numExchange += 1
     return ans
