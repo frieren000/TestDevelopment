@@ -237,4 +237,70 @@ def maxBottlesDrunk( numBottles, numExchange):
         ans += 1
         empty -= numExchange - 1
         numExchange += 1
+        
     return ans
+
+# 13.接雨水 I -- 双指针
+def trap(height):
+    l, r = 0, len(height)-1
+    l_max = r_max = 0
+    water = 0
+    while l <= r: # 当l == r时,中间最后一个柱子也要处理,需要逻辑覆盖
+        if l_max < r_max:
+            if height[l] > l_max:
+                l_max = height[l]
+            else:
+                water += l_max - height[l]
+            l += 1
+        else:
+            if height[r] > r_max:
+                r_max = height[r]
+            else:
+                water += r_max - height[r]
+            r -= 1
+            
+    return water
+    
+# 14.接雨水 II -- BFS + 最小堆
+import heapq
+def trapRainWater(heightMap):
+    if not heightMap or not heightMap[0] or len(heightMap) < 3 or len(heightMap[0]) < 3:
+        
+            return 0
+
+    m, n = len(heightMap), len(heightMap[0])
+    visited = [[False] * n for _ in range(m)]
+    heap = []
+
+    # 1. 将最外圈加入最小堆
+    for i in range(m):
+        for j in [0, n - 1]:
+            heapq.heappush(heap, (heightMap[i][j], i, j))
+            visited[i][j] = True
+    for j in range(1, n - 1):
+        for i in [0, m - 1]:
+            heapq.heappush(heap, (heightMap[i][j], i, j))
+            visited[i][j] = True
+
+    # 2. 方向数组
+    dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    total_water = 0
+
+    # 3. BFS + 最小堆
+    while heap:
+        h, i, j = heapq.heappop(heap)
+        for di, dj in dirs:
+            ni, nj = i + di, j + dj
+            if 0 <= ni < m and 0 <= nj < n and not visited[ni][nj]:
+                visited[ni][nj] = True
+                # 如果邻居更低，可以存水
+                if heightMap[ni][nj] < h:
+                    total_water += h - heightMap[ni][nj]
+                    # 以当前水位 h 入堆（水填平了）
+                    heapq.heappush(heap, (h, ni, nj))
+                else:
+                    # 邻居更高，不能存水，以其自身高度入堆
+                    heapq.heappush(heap, (heightMap[ni][nj], ni, nj))
+    
+    return total_water
+        
