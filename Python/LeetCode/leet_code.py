@@ -303,4 +303,20 @@ def trapRainWater(heightMap):
                     heapq.heappush(heap, (heightMap[ni][nj], ni, nj))
     
     return total_water
-        
+
+# 15. 盛水最多的容器
+def maxArea(height):
+    len_height = len(height)
+    left_point = 0
+    right_point = len_height - 1
+    max_area = 0
+    while left_point < right_point:
+        area = (right_point - left_point) * min(height[left_point], height[right_point])
+        if area > max_area:
+            max_area = area
+        elif height[left_point] < height[right_point]:
+            left_point += 1
+        else:
+            right_point -= 1
+            
+    return max_area
