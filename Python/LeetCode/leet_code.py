@@ -320,3 +320,37 @@ def maxArea(height):
             right_point -= 1
             
     return max_area
+
+# 16. 太平洋大西洋水流问题 -- 深度优先
+#TODO 可以着手实现深度和广度优先的搜索方式
+def pacificAtlantic(heights):
+        if not heights or not heights[0]:
+            return []
+        
+        m, n = len(heights), len(heights[0])
+        pacific = [[False] * n for _ in range(m)]
+        atlantic = [[False] * n for _ in range(m)]
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        
+        def dfs(i, j, visited, prev_height):
+            # 终止条件：越界、已访问、或当前高度小于前一个（无法逆流）
+            if i < 0 or i >= m or j < 0 or j >= n or visited[i][j] or heights[i][j] < prev_height:
+                return
+            visited[i][j] = True
+            for di, dj in directions:
+                dfs(i + di, j + dj, visited, heights[i][j])
+        
+        # 从太平洋边界出发（左 + 上）
+        for i in range(m):
+            dfs(i, 0, pacific, heights[i][0])
+        for j in range(n):
+            dfs(0, j, pacific, heights[0][j])
+        
+        # 从大西洋边界出发（右 + 下）
+        for i in range(m):
+            dfs(i, n - 1, atlantic, heights[i][n - 1])
+        for j in range(n):
+            dfs(m - 1, j, atlantic, heights[m - 1][j])
+        
+        # 收集交集
+        return [[i, j] for i in range(m) for j in range(n) if pacific[i][j] and atlantic[i][j]]
