@@ -6,3 +6,5 @@
 ~/codes/tools
 **/test_tools/test.**
 **/uploader_files/**
+**/logs
+**/reports

@@ -1,0 +1,19 @@
+base_url: http://192.168.112.128:8000/api/
+timeout: 15
+
+# 重试配置
+retry:
+  total: 3
+  backoff_factor: 1
+  status_forcelist: [429, 500, 502, 503, 504]
+
+# 认证配置
+auth:
+  auto_refresh: true
+  header_name: "Authorization"
+  refresh_callback: "refresh_token_function"
+
+# 默认 headers
+headers:
+  Content-Type: application/json
+  Accept: application/json

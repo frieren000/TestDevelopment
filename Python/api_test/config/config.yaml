@@ -1,0 +1,13 @@
+# config/config.yaml
+default_env: test
+
+log:
+  level: INFO
+  file: logs/app.log
+
+db:
+  host: 192.168.112.128
+  port: 3306
+  user: root
+  password: 12345678
+  database: test_db

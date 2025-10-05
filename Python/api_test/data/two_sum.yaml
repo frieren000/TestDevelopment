@@ -1,0 +1,25 @@
+- name: 正常场景 - 1
+  payload:
+    nums : [2,7,11,15]
+    target : 9
+  expected_status: 200
+  expected_json:
+    code: 200
+    message: 'success'
+    data: [0, 1]
+
+- name: 正常场景 - 2
+  payload:
+    nums : [3,2,4]
+    target : 6
+  expected_status: 200
+  expected_json:
+    code: 200
+    message: 'success'
+    data: [1, 2]
+
+- name: 异常场景 - 缺少参数
+  payload: {}
+  expected_status: 400
+  expected_json:
+    code: 400

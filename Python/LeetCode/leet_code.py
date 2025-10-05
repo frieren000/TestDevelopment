@@ -354,3 +354,50 @@ def pacificAtlantic(heights):
         
         # 收集交集
         return [[i, j] for i in range(m) for j in range(n) if pacific[i][j] and atlantic[i][j]]
+
+# 17. 二叉树的遍历(前/中/后)
+def traversal_unified(root, order='inorder'):
+    """
+    统一迭代模板：支持前序、中序、后序遍历
+    :param root: 二叉树根节点
+    :param order: 'preorder', 'inorder', 'postorder'
+    :return: 遍历结果列表
+    """
+    if not root:
+        return []
+    
+    stack = [(root, 0)]  # (节点, 状态: 0=未访问, 1=已访问)
+    result = []
+    
+    while stack:
+        node, state = stack.pop()
+        
+        if state == 1:
+            result.append(node.val)
+        else:
+            # 根据遍历类型，决定入栈顺序（注意：栈是后进先出，所以要反着压）
+            if order == 'postorder':
+                # 后序：左 → 右 → 根 → 入栈顺序：根(1), 右(0), 左(0)
+                stack.append((node, 1))
+                if node.right:
+                    stack.append((node.right, 0))
+                if node.left:
+                    stack.append((node.left, 0))
+            elif order == 'inorder':
+                # 中序：左 → 根 → 右 → 入栈顺序：右(0), 根(1), 左(0)
+                if node.right:
+                    stack.append((node.right, 0))
+                stack.append((node, 1))
+                if node.left:
+                    stack.append((node.left, 0))
+            elif order == 'preorder':
+                # 前序：根 → 左 → 右 → 入栈顺序：右(0), 左(0), 根(1)
+                if node.right:
+                    stack.append((node.right, 0))
+                if node.left:
+                    stack.append((node.left, 0))
+                stack.append((node, 1))
+            else:
+                raise ValueError("order must be 'preorder', 'inorder', or 'postorder'")
+    
+    return result
