@@ -401,3 +401,103 @@ def traversal_unified(root, order='inorder'):
                 raise ValueError("order must be 'preorder', 'inorder', or 'postorder'")
     
     return result
+
+# 18.各位相加
+def addDigits(num):
+    if len(str(num)) > 1:
+        ans = 0
+        num_list = []
+        for i in range(0, len(str(num))):
+            num_list.append(int(str(num)[i]))
+        ans = sum(num_list)
+        return addDigits(ans)
+        
+    else:
+        return num
+
+# 18 - 1. 各位相加 -- 更快的方法
+def addDigits(num):
+        while num >= 10:
+            num = sum(int(i) for i in str(num))
+
+        return num
+        
+# 19. 水位上升的泳池中游泳
+def swimInWater(self, grid):
+        import heapq
+        n = len(grid)
+        # 优先队列：(当前路径的最大高度, x, y)
+        heap = [(grid[0][0], 0, 0)]
+        visited = [[False] * n for _ in range(n)]
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        while heap:
+            max_h, x, y = heapq.heappop(heap)
+            
+            if x == n - 1 and y == n - 1:
+                return max_h
+                
+            if visited[x][y]:
+                continue
+            visited[x][y] = True
+            
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < n and 0 <= ny < n and not visited[nx][ny]:
+                    # 新路径的最大高度 = max(当前最大高度, 下一格高度)
+                    new_max = max(max_h, grid[nx][ny])
+                    heapq.heappush(heap, (new_max, nx, ny))
+        
+        return -1
+
+# 20. 重新排列数组
+def shuffle(nums, n):
+    new_nums_list = []
+    for i in range(0, len(nums) // 2):
+        new_nums_list.append(nums[i])
+        new_nums_list.append(nums[n + i])
+    return new_nums_list
+
+# 21. 分割字符的最大得分
+def maxScore(s):
+        if s:
+            left_list = []
+            right_list = []
+            score_list = []
+            for i in range(1, len(s)):
+                left_list.append(s[:i])
+                right_list.append(s[i:])
+            for m in range(0, len(left_list)):
+                sum_left_list = left_list[m].count('0')
+                sum_right_list = right_list[m].count('1')
+                score_list.append(sum_left_list + sum_right_list)
+            
+            return max(score_list)
+        else:
+            return 0
+    
+# 22. 统计范围内的元音字符串数
+def vowelStrings(words, left, right):
+    count = 0
+    vowel_str_list = ["a", "e", "i", "o", "u"]
+    for i in range(left, right + 1):
+        if (words[i][0] in vowel_str_list) and (words[i][-1] in vowel_str_list):
+            count += 1
+    return count
+
+# 23. 山脉数组的峰顶索引
+def peakIndexInMountainArray(arr):
+    left_point = 0
+    right_point = len(arr) - 1
+
+    while left_point <= right_point:
+        # 从left_point开始,向右走一半距离,来源于(right - left) >> 1的经典bug
+        # 可以保证不会出现溢出的情况
+        mid = left_point + (right_point - left_point) // 2
+        if arr[mid] < arr[mid + 1]:
+            left_point = mid + 1
+        else:
+            right_point = mid - 1
+        
+    return left_point
+    
