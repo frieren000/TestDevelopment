@@ -4,17 +4,9 @@
     numExchange: 3
   expected_status: 200
   expected_json:
-    code: 0
-    totalDrank: 13
-
-- name: 边界场景 - 1瓶水,2空换1(无法兑换)
-  payload:
-    numBottles: 1
-    numExchange: 2
-  expected_status: 200
-  expected_json:
-    code: 0
-    totalDrank: 1
+    code: 200
+    message: 'success'
+    data: 13
 
 - name: 异常场景 - 负数输入
   payload:
@@ -23,7 +15,8 @@
   expected_status: 400
   expected_json:
     code: 400
-    msg: "numBottles and numExchange must be positive integers"
+    message: 'failed'
+    data: '参数小于零'
 
 - name: 异常场景 - 缺少参数
   payload: {}

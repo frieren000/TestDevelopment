@@ -188,28 +188,25 @@ def two_sum(request):
         data = json.loads(request.body)
         nums = data['nums']
         target = data['target']
-        
-        two_sum_list = []
-        left_point = 0
-        right_point = len(nums) - 1
-        while left_point < right_point:
-            sums = nums[left_point] + nums[right_point]
-            if sums < target:
-                left_point += 1
-            elif sums == target:
-                two_sum_list = [left_point + 1, right_point + 1]
+
+        num_to_index = {}
+        for i, num in enumerate(nums):
+            complement = target - num
+            if complement in num_to_index:
+                two_sum_list = [num_to_index[complement], i]
                 break
-            else:
-                right_point -= 1
-                
-        
+            num_to_index[num] = i
+        else:
+            # 如果没找到
+            two_sum_list = []
+
         message_dict = {
             'code': 200,
             'message': 'success',
             'data': two_sum_list,
         }
         status = 200
-    
+
     except Exception as e:
         message_dict = {
             'code': 400,
@@ -217,7 +214,7 @@ def two_sum(request):
             'data': str(e),
         }
         status = 400
-        
+
     return Response(message_dict, status=status)
 
 @api_view(['POST'])
@@ -227,15 +224,21 @@ def num_water_bottles(request):
         data = json.loads(request.body)
         num_bottles = data['numBottles']
         num_exchange = data['numExchange']
-        
-        ans = num_bottles + (num_bottles - 1) // (num_exchange - 1)
-        
-        message_dict = {
-            'code': 200,
-            'message': 'success',
-            'data': ans,
-        }
-        status = 200
+        if num_bottles > 0 and num_exchange > 0:
+            ans = num_bottles + (num_bottles - 1) // (num_exchange - 1)
+            message_dict = {
+                'code': 200,
+                'message': 'success',
+                'data': ans,
+            }
+            status = 200
+        else:
+            message_dict = {
+                'code': 400,
+                'message': 'failed',
+                'data': '参数小于零',
+            }
+            status = 400
         
     except Exception as e:
         message_dict = {
