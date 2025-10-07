@@ -500,4 +500,45 @@ def peakIndexInMountainArray(arr):
             right_point = mid - 1
         
     return left_point
+
+# 24. 避免洪水泛滥
+def avoidFlood(rains):
+    from bisect import bisect_right, insort
+    n = len(rains)
+    ans = [-1] * n  # 默认下雨天为 -1
     
+    # 记录每个湖泊上一次下雨的日期
+    last_rain = {}
+    
+    # 用有序列表保存所有晴天的索引（日期）
+    dry_days = []  # sorted list of indices where rains[i] == 0
+    
+    for i in range(n):
+        lake = rains[i]
+        
+        if lake == 0:
+            # 晴天：先记录，后面再决定抽哪个湖
+            ans[i] = 1  # 临时填 1（题目允许任意，后面可能覆盖）
+            insort(dry_days, i)  # 保持有序
+        else:
+            # 下雨天
+            if lake in last_rain:
+                # 湖已经满了！必须在上次下雨后找一个晴天抽干
+                last_day = last_rain[lake]
+                
+                # 在 dry_days 中找第一个 > last_day 的晴天
+                pos = bisect_right(dry_days, last_day)
+                
+                if pos == len(dry_days):
+                    # 没有可用晴天 → 洪水！
+                    return []
+                
+                # 使用这个晴天抽干 lake
+                dry_day = dry_days[pos]
+                ans[dry_day] = lake  # 记录那天抽的是 lake
+                dry_days.pop(pos)    # 这个晴天已被使用
+            
+            # 更新该湖的最后下雨时间
+            last_rain[lake] = i
+    
+    return ans
