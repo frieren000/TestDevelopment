@@ -1,4 +1,3 @@
-# 工具文件
 import time
 import random
 import string

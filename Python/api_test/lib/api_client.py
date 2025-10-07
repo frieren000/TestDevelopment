@@ -12,14 +12,6 @@ from typing import Optional, Dict, Any, Union, Tuple
 logger = logging.getLogger(__name__)
 
 class APIClient:
-    """
-    增强版通用 API 客户端，支持：
-    - GET/POST/PUT/PATCH/DELETE
-    - 文件上传(multipart)
-    - 自动 Token 刷新(401 触发)
-    - 自动重试(可配置)
-    """
-
     def __init__(self, env: str = 'test'):
         config_path = f'config/env/{env}.yaml'
         if not os.path.exists(config_path):
@@ -37,7 +29,7 @@ class APIClient:
         self.base_url = self.config['base_url'].rstrip('/')
         self.session = requests.Session()
 
-        # === 配置重试策略 ===
+        # 重试 
         retry_strategy = Retry(
             total=self.config.get('retry', {}).get('total', 3),
             backoff_factor=self.config.get('retry', {}).get('backoff_factor', 1),
@@ -48,13 +40,13 @@ class APIClient:
         self.session.mount("http://", adapter)
         self.session.mount("https://", adapter)
 
-        # === 设置默认 headers ===
+        # 默认headers
         default_headers = {"Content-Type": "application/json"}
         config_headers = self.config.get('headers', {})
         default_headers.update(config_headers)
         self.session.headers.update(default_headers)
 
-        # === Token 刷新相关 ===
+        # Token刷新
         self._token_refresh_callback = self.config.get('auth', {}).get('refresh_callback')
         self._token_header_name = self.config.get('auth', {}).get('header_name', 'Authorization')
         self._should_retry_on_401 = self.config.get('auth', {}).get('auto_refresh', False)
@@ -130,12 +122,11 @@ class APIClient:
         if files:
             req_headers = req_kwargs.get('headers', {})
             if 'Content-Type' in self.session.headers and 'Content-Type' not in req_headers:
-                # 临时移除，避免覆盖 multipart
-                pass  # requests 会自动处理，无需手动干预
+                pass  
 
         self._log_request(method, url, **{k: v for k, v in req_kwargs.items() if v is not None})
 
-        max_retries_on_401 = 1  # 防止无限循环
+        max_retries_on_401 = 1 
         attempt = 0
 
         while attempt <= max_retries_on_401:
@@ -161,7 +152,7 @@ class APIClient:
         self._log_response(resp)
         return resp
 
-    # === 便捷方法 ===
+    # HTTP请求
     def get(self, endpoint: str, **kwargs) -> requests.Response:
         return self.request('GET', endpoint, **kwargs)
 
@@ -177,7 +168,7 @@ class APIClient:
     def delete(self, endpoint: str, **kwargs) -> requests.Response:
         return self.request('DELETE', endpoint, **kwargs)
 
-    # === 文件上传专用方法(可选，也可直接用 post(files=...))===
+    # 文件上传
     def upload_file(self, endpoint: str, file_path: str, field_name: str = 'file', **kwargs) -> requests.Response:
         """
         便捷文件上传方法

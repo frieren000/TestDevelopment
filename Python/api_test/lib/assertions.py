@@ -10,7 +10,7 @@ def assert_json_body(response, expected_json):
     except json.JSONDecodeError:
         assert False, f"Response is not valid JSON: {response.text}"
     
-    # for key, expected_val in expected_json.items():
-    #     assert key in resp_json, f"Key '{key}' not in response"
-    #     assert resp_json[key] == expected_val, \
-    #         f"Key '{key}': expected {expected_val}, got {resp_json[key]}"
+    for key, expected_val in expected_json.items():
+        assert key in resp_json, f"Key '{key}' not in response"
+        assert resp_json[key] == expected_val, \
+            f"Key '{key}': expected {expected_val}, got {resp_json[key]}"

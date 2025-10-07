@@ -26,7 +26,7 @@ class DBClient:
             'password': db_conf['password'],
             'database': db_conf['database'],
             'charset': 'utf8mb4',
-            'autocommit': False,  # 手动控制事务更安全
+            'autocommit': False,
             'cursorclass': pymysql.cursors.DictCursor  # 返回字典而非元组
         }
 
@@ -86,7 +86,7 @@ class DBClient:
         """
         批量执行（如批量插入）
         :param sql: SQL 模板
-        :param params_list: 参数列表，如 [(val1, val2), (val3, val4)]
+        :param params_list: 参数列表
         :return: 总影响行数
         """
         conn = self._get_connection()

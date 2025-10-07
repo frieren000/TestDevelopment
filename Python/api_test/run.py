@@ -20,9 +20,9 @@ def run_tests():
     # 3. 运行 pytest 并指定 --alluredir 生成结果
     print("开始运行测试...")
     result = subprocess.run([
-        sys.executable, "-m", "pytest",  # 使用当前 Python 环境的 pytest
-        "--alluredir", results_dir,      # 关键！生成 Allure 结果
-        "-v"                             # 可选：显示详细输出
+        sys.executable, "-m", "pytest",  
+        "--alluredir", results_dir,      
+        "-v"    
     ])
     
     if result.returncode != 0:
