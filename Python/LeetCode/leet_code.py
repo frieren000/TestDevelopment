@@ -73,6 +73,7 @@ def threeSum(nums_list, target):
 # 5.1 三数之和 -- 指针法
 def threeSumByOrder(nums_list, target):
         result = []
+        # 使用set()集合可以确保没有重复的解
         temple_result = set()
         nums_list.sort()
         for i in range(0, len(nums_list)):
@@ -83,6 +84,7 @@ def threeSumByOrder(nums_list, target):
                 # 关键点一:求和过程应在while循环内
                 if three_sum == target:
                     temple_result.add((nums_list[i], nums_list[left_point], nums_list[right_point]))
+                    # 下面两行的作用是推进搜索
                     left_point += 1
                     right_point -= 1
                     # 关键点二:在确认一组解后应移动指针位置
