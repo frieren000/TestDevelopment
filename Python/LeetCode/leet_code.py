@@ -518,7 +518,7 @@ def avoidFlood(rains):
         
         if lake == 0:
             # 晴天：先记录，后面再决定抽哪个湖
-            ans[i] = 1  # 临时填 1（题目允许任意，后面可能覆盖）
+            ans[i] = 1
             insort(dry_days, i)  # 保持有序
         else:
             # 下雨天
@@ -542,3 +542,22 @@ def avoidFlood(rains):
             last_rain[lake] = i
     
     return ans
+
+# 25. 咒语和药水的成功对数
+import bisect
+def successfulPairs(spells, potions, success):
+    ans_list = []
+    result = [[a * b for b in potions] for a in spells]
+    for i in range(0, len(result)):
+        ans = 0
+        temp_result = sorted(result[i])
+        for j in range(0, len(temp_result)):
+            if temp_result[j] >= success:
+                ans += 1
+        ans_list.append(ans)
+    return ans_list
+
+# 25.  咒语和药水的成功对数 -- 更快的方法
+def successfulPairs(spells, potions, success):
+    potions.sort()
+    return [len(potions) - bisect.bisect_right(potions, (success - 1) // i) for i in spells]
