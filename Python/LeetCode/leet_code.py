@@ -559,7 +559,29 @@ def successfulPairs(spells, potions, success):
         ans_list.append(ans)
     return ans_list
 
-# 25.  咒语和药水的成功对数 -- 更快的方法
+# 25. 咒语和药水的成功对数 -- 更快的方法
 def successfulPairs(spells, potions, success):
     potions.sort()
     return [len(potions) - bisect.bisect_right(potions, (success - 1) // i) for i in spells]
+
+# 26. 酿造药水需要的最少总时间
+from itertools import accumulate, pairwise
+def minTime(skill, mana):
+        n = len(skill)
+        s = list(accumulate(skill, initial=0))
+
+        suf_record = [n - 1]
+        for i in range(n - 2, -1, -1):
+            if skill[i] > skill[suf_record[-1]]:
+                suf_record.append(i)
+
+        pre_record = [0]
+        for i in range(1, n):
+            if skill[i] > skill[pre_record[-1]]:
+                pre_record.append(i)
+
+        start = 0
+        for pre, cur in pairwise(mana):
+            record = pre_record if pre < cur else suf_record
+            start += max(pre * s[i + 1] - cur * s[i] for i in record)
+        return start + mana[-1] * s[-1]
