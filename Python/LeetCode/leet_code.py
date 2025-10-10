@@ -585,3 +585,10 @@ def minTime(skill, mana):
             record = pre_record if pre < cur else suf_record
             start += max(pre * s[i + 1] - cur * s[i] for i in record)
         return start + mana[-1] * s[-1]
+    
+# 27. 从魔法师身上吸取的最大能量
+def maximumEnergy(energy, k):
+    n = len(energy)
+    for i in range(n - 1 - k, -1, -1):
+        energy[i] += energy[i + k]
+    return max(energy)
