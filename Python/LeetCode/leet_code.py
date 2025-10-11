@@ -592,3 +592,22 @@ def maximumEnergy(energy, k):
     for i in range(n - 1 - k, -1, -1):
         energy[i] += energy[i + k]
     return max(energy)
+
+# 28. 施咒的最大总伤害
+from functools import cache
+from collections import Counter
+def maximumTotalDamage(power):
+        cnt = Counter(power)
+        a = sorted(cnt)
+
+        @cache
+        def dfs(i):
+            if i < 0:
+                return 0
+            x = a[i]
+            j = i
+            while j and a[j - 1] >= x - 2:
+                j -= 1
+            return max(dfs(i - 1), dfs(j - 1) + x * cnt[x])
+
+        return dfs(len(a) - 1)
