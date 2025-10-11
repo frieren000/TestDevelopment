@@ -611,3 +611,62 @@ def maximumTotalDamage(power):
             return max(dfs(i - 1), dfs(j - 1) + x * cnt[x])
 
         return dfs(len(a) - 1)
+
+# 29. 定长子串中元音的最大数目 -- 固定长度的滑动窗口练习
+def maxVowels(s, k):
+    vowels = set("aeiou")
+    
+    # 初始化第一个窗口[0, k - 1]
+    current_vowel = 0
+    for i in range(k):
+        if s[i] in vowels:
+            current_vowel += 1
+    max_vowels = current_vowel # 初始化最大值
+    
+    # 滑动窗口,右端点从k到len(s) - 1
+    for i in range(k, len(s)):
+        # 移除左边字符s[i - k]
+        if s[i - k] in vowels:
+            current_vowel -= 1
+        
+        # 加入右边字符s[i]
+        if s[i] in vowels:
+            current_vowel += 1
+
+        max_vowels = max(max_vowels, current_vowel)
+        
+        if max_vowels == k:
+            break
+        
+    return max_vowels
+    
+# 30. 子数组最大平均数 -- 固定长度滑动窗口
+def findMaxAverage(nums, k):
+    # 初始化第一个窗口
+    current_sums = sum(nums[:k])
+    max_sum = current_sums
+    
+    # 滑动窗口 -- 减左 + 加右
+    for i in range(k, len(nums)):
+        current_sums = current_sums - nums[i - k] + nums[i]
+        max_sum = max(current_sums, max_sum)
+        
+    return max_sum / k
+
+# 31. 大小为K且平均值大于等于阈值的子数组数目
+def numOfSubarrays(arr, k, threshold):
+    # 初始化第一个窗口
+    substr_num = 0
+    current_sums = sum(arr[:k])
+    # current_sums >= threshold * k 与 (current_sums / k) >= threshold的比较
+    # current_sums >= threshold * k避免了精度的问题
+    if current_sums >= threshold * k:
+        substr_num += 1
+         
+    # 滑动窗口 -- 减左 + 加右
+    for i in range(k, len(arr)):
+        current_sums = current_sums -arr[i - k] + arr[i]
+        if current_sums >= threshold * k:
+            substr_num += 1
+    
+    return substr_num        
