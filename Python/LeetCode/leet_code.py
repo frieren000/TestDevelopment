@@ -40,9 +40,10 @@ def isPalindrome(int):
         return False
 
 # 3.两数相加 -- 双指针解法
-def ListNode(val=0, next=None):
-         val = val
-         next = next
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 def addTwoNumbers(l1, l2):
         dummy = ListNode() # 虚拟头节点
         head = dummy
@@ -724,3 +725,55 @@ def magicalSum(m, k, nums):
         return res % MOD
 
     return dfs(0, m, 0, k) * fac[m] % MOD
+
+# 33. 得到K个黑块的最少涂色次数 -- 滑动窗口取最小值
+def minimumRecolors(blocks: str, k: int) -> int:
+    # 初始化第一个窗口[0, k - 1]
+    w_count = 0
+    for i in range(k):
+        if 'W' == blocks[i]:
+            w_count += 1
+    min_ops = w_count
+    
+    # 滑动窗口,右端点从k到len(blocks) - 1
+    for i in range(k, len(blocks)):
+        # 移除左边的字符
+        if 'W' == blocks[i - k]:
+            w_count -= 1
+        
+        if 'W' == blocks[i]:
+            w_count += 1
+            
+        min_ops = min(min_ops, w_count)
+        
+    return min_ops
+
+# 34. 几乎唯一子数组的最大和 -- 滑动窗口练习
+from collections import defaultdict
+def maxSum(nums: list[int], m: int, k: int) -> int:
+    ans = s = 0
+    cnt = defaultdict(int)
+    for i, x in enumerate(nums):
+        # 1. 进入窗口
+        s += x
+        cnt[x] += 1
+
+        left = i - k + 1
+        if left < 0:  # 窗口大小不足 k
+            continue
+
+        # 2. 更新答案
+        if len(cnt) >= m:
+            ans = max(ans, s)
+
+        # 3. 离开窗口
+        out = nums[left]
+        s -= out
+        cnt[out] -= 1
+        if cnt[out] == 0:
+            del cnt[out]
+
+    return ans
+        
+        
+    
