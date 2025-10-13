@@ -774,6 +774,24 @@ def maxSum(nums: list[int], m: int, k: int) -> int:
             del cnt[out]
 
     return ans
-        
-        
+
+# 35. 移除字母异位词后的结果数组
+def removeAnagrams(words: list[str]) -> list[str]:
+    res = [words[0]]
+    for i in range(1, len(words)):
+        if sorted(words[i]) != sorted(words[i - 1]):
+            res.append(words[i])
     
+    return res
+
+# 35.1. 移除字母异位词后的结果数组 -- 双指针法
+def removeAnagramsByPoints(words: list[str]) -> list[str]:
+    # 慢指针
+    slow_point = 0
+    
+    for i in range(1, len(words)):
+        if sorted(words[i]) != sorted(words[i + 1]):
+            slow_point += 1
+            words[slow_point] = words[i]
+            
+    return words[:slow_point + 1]
