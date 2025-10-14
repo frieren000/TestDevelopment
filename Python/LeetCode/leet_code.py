@@ -795,3 +795,25 @@ def removeAnagramsByPoints(words: list[str]) -> list[str]:
             words[slow_point] = words[i]
             
     return words[:slow_point + 1]
+
+# 36. 检测相邻递增子数组 I
+def hasIncreasingSubarrays(nums: list[int], k: int) -> bool:
+    len_nums = len(nums)
+    for i in range(len_nums):
+        j = i + k
+        flag = True
+        cnt = 1
+        m = i
+        while cnt < k:
+            if (m + 1 >= len_nums or 
+                j + 1 >= len_nums or 
+                nums[m] >= nums[m + 1] or 
+                nums[j] >= nums[j + 1]):
+                flag = False
+                break
+            m += 1
+            j += 1
+            cnt += 1
+        if flag and cnt == k:
+            return True
+    return False
