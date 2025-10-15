@@ -817,3 +817,89 @@ def hasIncreasingSubarrays(nums: list[int], k: int) -> bool:
         if flag and cnt == k:
             return True
     return False
+
+# 37. 半径为k的子数组平均值
+def getAverages(nums: list[int], k: int) -> list[int]:
+    len_nums = len(nums)
+    win_size = 2 * k + 1
+    ans_list = [-1] * len_nums
+    
+    if win_size > len_nums:
+        return ans_list
+    
+    #初始化第一个窗口
+    win_sum_nums = sum(nums[:win_size])
+    average_num = win_sum_nums // win_size
+    ans_list[k] = average_num
+    
+    for i in range(win_size, len_nums):
+        win_sum_nums = win_sum_nums - nums[i - win_size] + nums[i]
+        average_num = win_sum_nums // win_size
+        ans_list[i - k] = average_num
+        
+    return ans_list
+
+# 38. 长度为K子数组中的最大和
+def maximumSubarraySum(nums: list[int], k: int) -> int:
+    len_nums = len(nums)
+    
+    if k > len_nums:
+        return 0
+    
+    # 初始化第一个窗口的和并对max_sum赋初值
+    max_sum = 0
+    current_sum = sum(nums[:k])
+    
+    # 检验第一个窗口的合理性
+    if len(nums[:k]) == len(set(nums[:k])):
+        max_sum = current_sum
+    
+    for i in range(k, len_nums):
+        # 始终更新窗口和
+        current_sum = current_sum - nums[i - k] + nums[i]
+        
+        if len(set(nums[i - k + 1 : i + 1])) == k:
+            max_sum = max(max_sum, current_sum)
+    
+    
+    return max_sum
+            
+# 38.1 长度为K子数组中的最大和 -- 更快的方法 -- 使用频次哈希表
+# defaultdict -- 创建带有默认值的字典,默认值为可调用对象
+def maximumSubarraySumFaster(nums: list[int], k: int) -> int:
+    from collections import defaultdict
+    
+    n = len(nums)
+    if k > n:
+        return 0
+    
+    freq = defaultdict(int)
+    current_sum = 0
+    
+    # 初始化第一个窗口
+    for i in range(k):
+        freq[nums[i]] += 1
+        current_sum += nums[i]
+    
+    max_sum = current_sum if len(freq) == k else 0
+
+    # 滑动窗口
+    for i in range(k, n):
+        left = nums[i - k]
+        right = nums[i]
+        
+        # 移除 left
+        freq[left] -= 1
+        if freq[left] == 0:
+            del freq[left]
+        current_sum -= left
+        
+        # 添加 right
+        freq[right] += 1
+        current_sum += right
+        
+        # 检查是否所有元素唯一
+        if len(freq) == k:
+            max_sum = max(max_sum, current_sum)
+    
+    return max_sum
