@@ -259,7 +259,7 @@ def maxBottlesDrunk( numBottles, numExchange):
     return ans
 
 # 13.接雨水 I -- 双指针
-def trap(height):
+def trap(height: list[int]) -> int:
     l, r = 0, len(height)-1
     l_max = r_max = 0
     water = 0
