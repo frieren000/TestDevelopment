@@ -375,12 +375,6 @@ def pacificAtlantic(heights):
 
 # 17. 二叉树的遍历(前/中/后)
 def traversal_unified(root, order='inorder'):
-    """
-    统一迭代模板：支持前序、中序、后序遍历
-    :param root: 二叉树根节点
-    :param order: 'preorder', 'inorder', 'postorder'
-    :return: 遍历结果列表
-    """
     if not root:
         return []
     
