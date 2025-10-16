@@ -910,7 +910,6 @@ def findSmallestInteger(nums: list[int], value: int) -> int:
     for i in nums:
         r = i % value
         cnt[r] += 1
-    print(cnt)
     
     t = 0
     while True:
