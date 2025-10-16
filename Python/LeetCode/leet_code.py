@@ -912,3 +912,21 @@ def findSmallestInteger(nums: list[int], value: int) -> int:
             return t
         cnt[r] -= 1
         t += 1
+        
+# 40. 可获得的最大点数 -- 滑动窗口练习
+def maxScore(cardPoints: list[int], k: int) -> int:
+    len_card = len(cardPoints)
+    all_sum_card = sum(cardPoints)
+    
+    if len_card == k:
+        return all_sum_card
+    
+    win_size = len_card - k
+    current_num = sum(cardPoints[:win_size])
+    min_num = current_num
+    
+    for i in range(win_size, len_card):
+        current_num += cardPoints[i] - cardPoints[i - win_size]
+        min_num = min(min_num, current_num)
+        
+    return all_sum_card - min_num
