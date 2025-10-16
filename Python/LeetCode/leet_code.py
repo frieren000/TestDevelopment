@@ -903,3 +903,7 @@ def maximumSubarraySumFaster(nums: list[int], k: int) -> int:
             max_sum = max(max_sum, current_sum)
     
     return max_sum
+
+# 39. 执行操作后的最大MEX
+def findSmallestInteger(nums: list[int], value: int) -> int:
+    return 0
