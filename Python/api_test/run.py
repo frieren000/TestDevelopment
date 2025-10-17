@@ -35,7 +35,7 @@ def run_tests():
         print("未生成任何 Allure 结果文件，请检查 pytest 是否正常运行。")
         return
 
-    # 5. 查找 allure 命令（安全方式）
+    # 5. 查找 allure 命令
     allure_path = shutil.which("allure")
     if not allure_path:
         print("未找到 Allure CLI,跳过报告生成。")
