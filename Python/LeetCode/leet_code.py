@@ -945,3 +945,21 @@ def maxDistinctElements(nums: list[int], k: int) -> int:
             count += 1
             last = candidate
     return count
+
+# 42. 使库存平衡的最少丢弃数 -- 固定长度滑动窗口进阶练习
+def minArrivalsToDiscard(arrivals: list[int], w: int, m: int) -> int:
+    ans = 0
+    cnt = [0] * (max(arrivals) + 1)
+    
+    for i , x in enumerate(arrivals):
+        if m == cnt[x]:
+            arrivals[i] = 0
+            ans += 1
+        else:
+            cnt[x] += 1
+        
+        left = i - w + 1
+        if left >= 0:
+            cnt[arrivals[left]] -= 1
+    
+    return ans
