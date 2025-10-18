@@ -930,3 +930,22 @@ def maxScore(cardPoints: list[int], k: int) -> int:
         min_num = min(min_num, current_num)
         
     return all_sum_card - min_num
+
+# 41. 执行操作后不同元素的最大数量
+def maxDistinctElements(nums: list[int], k: int) -> int:
+    nums.sort()
+    last = float('-inf')
+    count = 0
+    
+    for x in nums:
+        low = x - k
+        high = x + k
+        candidate = max(low, last + 1)
+        if candidate <= high:
+            count += 1
+            last = candidate
+    return count
+    
+nums = [1,2,2,3,3,4]
+k = 2
+print(maxDistinctElements(nums, k))  
