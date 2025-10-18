@@ -945,7 +945,3 @@ def maxDistinctElements(nums: list[int], k: int) -> int:
             count += 1
             last = candidate
     return count
-    
-nums = [1,2,2,3,3,4]
-k = 2
-print(maxDistinctElements(nums, k))  
