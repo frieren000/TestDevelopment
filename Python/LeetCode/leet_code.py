@@ -963,3 +963,41 @@ def minArrivalsToDiscard(arrivals: list[int], w: int, m: int) -> int:
             cnt[arrivals[left]] -= 1
     
     return ans
+
+# 43. 执行操作后字典序最小的字符串
+def findLexSmallestString(s: str, a: int, b: int) -> str:
+    from collections import deque
+    
+    # 累加操作
+    def accumulate(s, a):
+        s_list = list(s)
+        for i in range(1, len(s_list), 2):
+            digit = int(s_list[i])
+            s_list[i] = str((digit + a) % 10)
+        return ''.join(s_list)
+    
+    # 轮换操作
+    def rotation(s, b):
+        if not s:
+            return s
+        b = b % len(s)
+        return s[-b:] + s[:-b]
+    
+    visited = set()
+    queue = deque([s])
+    visited.add(s)
+    
+    while queue:
+        curr = queue.popleft()
+        
+        s1 = accumulate(curr, a)
+        if s1 not in visited:
+            visited.add(s1)
+            queue.append(s1)
+        
+        s2 = rotation(curr, b)
+        if s2 not in visited:
+            visited.add(s2)
+            queue.append(s2)
+    
+    return min(visited)
