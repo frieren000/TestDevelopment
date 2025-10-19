@@ -1,3 +1,4 @@
+from copy import deepcopy
 import heapq
 import bisect
 from typing import List, Optional, Tuple, Set, Dict
@@ -825,3 +826,32 @@ def maxSatisfied(customers: List[int], grumpy: List[int], minutes: int) -> int:
             current_extra -= customers[i - minutes]
         max_extra = max(max_extra, current_extra)
     return total + max_extra
+
+# 45. 按策略买卖股票的最佳时机 -- 滑动窗口进阶
+def maxProfit(prices: List[int], strategy: List[int], k: int) -> int:
+    n = len(prices)
+    original_profit = sum(s * p for s, p in zip(strategy, prices))
+    if k > n:
+        return original_profit
+
+    half = k // 2
+    # 初始窗口 [0, k-1]
+    orig_win = sum(strategy[i] * prices[i] for i in range(k))
+    new_win = sum(prices[i] for i in range(half, k))
+    
+    max_profit = original_profit - orig_win + new_win
+
+    # 滑动窗口
+    for i in range(1, n - k + 1):
+        orig_win += -strategy[i - 1] * prices[i - 1] + strategy[i + k - 1] * prices[i + k - 1]
+        new_win += -prices[i + half - 1] + prices[i + k - 1]
+        current = original_profit - orig_win + new_win
+        if current > max_profit:
+            max_profit = current
+
+    return max(max_profit, original_profit)
+    
+prices = [4,2,8]
+strategy = [-1,0,1]
+k = 2
+print(maxProfit(prices, strategy, k))
