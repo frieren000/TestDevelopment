@@ -850,8 +850,3 @@ def maxProfit(prices: List[int], strategy: List[int], k: int) -> int:
             max_profit = current
 
     return max(max_profit, original_profit)
-    
-prices = [4,2,8]
-strategy = [-1,0,1]
-k = 2
-print(maxProfit(prices, strategy, k))
