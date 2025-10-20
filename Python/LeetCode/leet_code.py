@@ -379,7 +379,7 @@ def addDigits(num: int) -> int:
         return num
 
 # 18 - 1. 各位相加 -- 更快的方法
-def addDigits(num: int) -> int:
+def addDigitsFaster(num: int) -> int:
     while num >= 10:
         num = sum(int(i) for i in str(num))
     return num
@@ -850,3 +850,33 @@ def maxProfit(prices: List[int], strategy: List[int], k: int) -> int:
             max_profit = current
 
     return max(max_profit, original_profit)
+
+# 46. 执行操作后的变量值
+def finalValueAfterOperations(operations: List[str]) -> int:
+    x = 0
+    for op in operations:
+        if "--" in op:
+            x -= 1
+        else:
+            x += 1
+    
+    return x
+
+# 47. 重新安排会议得到最多空余时间 I -- 滑动窗口进阶练习
+def maxFreeTime(eventTime: int, k: int, startTime: List[int], endTime: List[int]) -> int:
+    n = len(startTime)
+    free = [0] * (n + 1)
+    free[0] = startTime[0]  # 最左边的空余时间段
+    for i in range(1, n):
+        free[i] = startTime[i] - endTime[i - 1]
+    free[n] = eventTime - endTime[-1]
+
+    # 套定长滑窗模板（窗口长为 k+1）
+    ans = s = 0
+    for i, f in enumerate(free):
+        s += f
+        if i < k:
+            continue
+        ans = max(ans, s)
+        s -= free[i - k]
+    return ans
