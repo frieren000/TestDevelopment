@@ -880,3 +880,39 @@ def maxFreeTime(eventTime: int, k: int, startTime: List[int], endTime: List[int]
         ans = max(ans, s)
         s -= free[i - k]
     return ans
+
+# 48. 执行操作后元素的最高频率 I
+def maxFrequency(nums: list[int], k: int, numOperations: int) -> int:
+    counter = Counter(nums)
+    nums.sort()
+    
+    # 初始化
+    left = 0
+    right = 0
+    ans = 0
+    
+    # 枚举潜在的目标值
+    for target in range(nums[0], nums[-1] + 1):
+        # 无法转换成 target 的数从窗口左侧移出
+        while nums[left] < target - k:
+            left += 1
+        
+        # 可以转换成 target 的数都包含进窗口右侧
+        while right < len(nums) and nums[right] <= target + k:
+            right += 1
+        
+        # 元素总数
+        total = right - left
+        # 初始频率
+        initial_freq = counter.get(target, 0)
+        
+        # 可以用来转换的数量
+        convert = total - initial_freq
+        # 实际能转换的数量
+        op_use = min(numOperations, convert)
+        
+        # 初始频率 + 新转换过来的数量
+        total_freq = initial_freq + op_use
+        ans = max(ans, total_freq)
+
+    return ans
