@@ -871,7 +871,7 @@ def maxFreeTime(eventTime: int, k: int, startTime: List[int], endTime: List[int]
         free[i] = startTime[i] - endTime[i - 1]
     free[n] = eventTime - endTime[-1]
 
-    # 套定长滑窗模板（窗口长为 k+1）
+    # 套定长滑窗模板（窗口长为 k+1)
     ans = s = 0
     for i, f in enumerate(free):
         s += f
