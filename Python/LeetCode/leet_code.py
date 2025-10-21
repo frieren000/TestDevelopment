@@ -916,3 +916,26 @@ def maxFrequency(nums: list[int], k: int, numOperations: int) -> int:
         ans = max(ans, total_freq)
 
     return ans
+
+# 49. 最少交换次数来组合所有的 1 II -- 滑动窗口进阶练习
+def minSwaps(nums: List[int]) -> int:
+    len_nums = len(nums)
+    total_ones = sum(nums)
+    
+    if total_ones == 0 or total_ones == len_nums:
+        return 0
+    
+    # 对数组进行环形处理
+    extened = nums + nums
+    
+    # 初始化第一个窗口
+    current_ones = sum(extened[:total_ones])
+    max_ones = current_ones
+    
+    # 滑动窗口的精髓 -- 减左 + 加右
+    for i in range(1, len_nums):
+        current_ones -= extened[i - 1]
+        current_ones += extened[i + total_ones - 1]
+        max_ones = max(max_ones, current_ones)
+    
+    return total_ones - max_ones
