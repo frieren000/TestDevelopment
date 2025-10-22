@@ -947,7 +947,7 @@ def maxFrequencyII(nums: list[int], k: int, numOperations: int) -> int:
     ans = cnt = left = right = 0
     for i,x in enumerate(nums):
         cnt += 1
-        #循环直到连续相同段的末尾，这样可以统计出x的出现次数
+        #循环直到连续相同段的末尾,这样可以统计出x的出现次数
         if i < n - 1 and x == nums[i + 1]:
             continue
         while nums[left] < x - k:
@@ -966,4 +966,24 @@ def maxFrequencyII(nums: list[int], k: int, numOperations: int) -> int:
             left += 1
         ans  = max(ans,right - left + 1)
     return min(ans,numOperations)
+
+# 50. 拆炸弹 -- 滑动窗口进阶练习
+def decrypt(code: list[int], k: int) -> List[int]:
+    n = len(code)
+    if k == 0:
+        return [0] * n
+    
+    res = [0] * n
+    # 统一处理:计算每个位置的窗口和
+    for i in range(n):
+        total = 0
+        if k > 0:
+            for j in range(1, k + 1):
+                total += code[(i + j) % n]
+        else:
+            for j in range(k, 0):  # k is negative
+                total += code[(i + j) % n]
+        res[i] = total
+    return res
+        
     
