@@ -3,7 +3,7 @@ import heapq
 import bisect
 from typing import List, Optional, Tuple, Set, Dict
 from collections import defaultdict, Counter, deque
-from itertools import accumulate, pairwise
+from itertools import accumulate, count, pairwise
 
 
 # 1.两数之和
@@ -993,7 +993,25 @@ def hasSameDigits(s: str) -> bool:
             str((int(s[i]) + int(s[i + 1])) % 10)
             for i in range(len(s) - 1)
         )
+    
     return s[0] == s[1]
 
-s = "3902"
-print(hasSameDigits(s)) 
+# 52. 下一个更大的数值平衡数
+def nextBeautifulNumber(n: int) -> int:
+    res = n + 1
+    
+    while True:
+        flag = True
+        cnt_dict = Counter(str(res))
+        for cnt_keys, cnt_values in cnt_dict.items():
+            if (0 == int(cnt_keys) or
+                int(cnt_keys) != cnt_values
+                ):
+                flag = False
+                break
+        
+        if flag:
+            return res
+        
+        res += 1    
+   
