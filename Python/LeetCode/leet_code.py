@@ -986,4 +986,14 @@ def decrypt(code: list[int], k: int) -> List[int]:
         res[i] = total
     return res
         
-    
+# 51. 判断操作后字符串中的数字是否相等 I
+def hasSameDigits(s: str) -> bool:
+    while len(s) > 2:
+        s = ''.join(
+            str((int(s[i]) + int(s[i + 1])) % 10)
+            for i in range(len(s) - 1)
+        )
+    return s[0] == s[1]
+
+s = "3902"
+print(hasSameDigits(s)) 
