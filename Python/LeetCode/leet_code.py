@@ -1014,4 +1014,26 @@ def nextBeautifulNumber(n: int) -> int:
             return res
         
         res += 1    
-   
+
+# 53. 计算力扣银行的钱 -- 等差数列
+def totalMoney(n: int) -> int:
+    a = n // 7
+    b = n % 7
+    money = (49 + 7 * a) * a / 2 + (2 * a + b + 1) * b / 2
+    
+    return int(money)
+
+# 53.1. 计算力扣银行的钱 -- 模拟
+def totalMoneyBySimulate(n: int) -> int:
+    sum_money = 0
+    if n <= 7:
+        for i in range(1, n + 1):
+            sum_money += i
+    else:
+        week_num = n // 7
+        day_num = n % 7
+        week_money = (49 + 7 * week_num) * week_num / 2
+        day_money = (2 * week_num + day_num + 1) * day_num / 2
+        sum_money = int(week_money + day_money)
+    
+    return sum_money
