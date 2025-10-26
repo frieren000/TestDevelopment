@@ -1037,3 +1037,42 @@ def totalMoneyBySimulate(n: int) -> int:
         sum_money = int(week_money + day_money)
     
     return sum_money
+
+# 54. 简易银行系统
+class Bank:
+    def __init__(self, balance: List[int]):
+        self.balance = balance
+        self.len_balance = len(balance)
+    # 转账
+    def transfer(self, account1: int, account2: int, money: int) -> bool:
+        if (
+            (self.len_balance < account1) or
+            (self.len_balance < account2) or
+            (self.balance[account1 - 1] < money)
+            ):
+            
+            return False
+        else:
+            self.balance[account1 - 1] -= money
+            self.balance[account2 - 1] += money
+            
+            return True
+    # 存款
+    def deposit(self, account: int, money: int) -> bool:
+        if self.len_balance < account:
+            
+            return False
+        else:
+            self.balance[account - 1] += money
+            
+            return True
+    # 取款
+    def withdraw(self, account: int, money: int) -> bool:
+        if ((self.len_balance < account) or 
+            (self.balance[account - 1] < money)):
+            
+            return False
+        else:
+            self.balance[account - 1] -= money
+            
+            return True
