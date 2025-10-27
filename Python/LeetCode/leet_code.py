@@ -1076,3 +1076,14 @@ class Bank:
             self.balance[account - 1] -= money
             
             return True
+        
+# 55. 银行中的激光束数量
+def numberOfBeams(bank: List[str]) -> int:
+    total = 0
+    prev = 0
+    for row in bank:
+        curr = row.count("1")
+        if curr:
+            total += prev * curr
+            prev = curr
+    return total
