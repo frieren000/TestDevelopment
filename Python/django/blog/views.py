@@ -17,61 +17,36 @@ def hello(request):
 
 @api_view(['GET'])
 def search_users_info(request):
-    # 查找用户信息
-    data_list, columns = [], []
     try:
-        search_user_sql = f'''
-        select * from users where 1 = 1
-        '''
-        params = []
+        queryset = Users.objects.all()
+
         user_id = request.GET.get('id')
         name = request.GET.get('name')
         email = request.GET.get('email')
-        
+
         if user_id:
-            search_user_sql += 'and id = %s'
-            params.append(user_id)
-        
+            queryset = queryset.filter(id=user_id)
+
         if name:
-            search_user_sql += 'and name like %s'
-            params.append(f'%{name}%')
-        
+            queryset = queryset.filter(name__icontains=name)
+
         if email:
-            search_user_sql += 'and email = %s'
-            params.append(email)
-        
-        connect = pymysql.connect(**base_tools.database_config)
-        cursor = connect.cursor()
-        cursor.execute(search_user_sql, params)
-        
-        for col in cursor.description:
-            columns.append(col[0])
-            
-        rows = cursor.fetchall()
-        data_list = [dict(zip(columns, row)) for row in rows]
-        
-        data_content_dict = {
+            queryset = queryset.filter(email=email)
+
+        data_list = list(queryset.values())
+
+        return Response({
             'status': 200,
             'message': 'success',
             'data': data_list,
-        }
-        status = 200
-        
+        }, status=200)
+
     except Exception as e:
-        data_content_dict = {
-            'status':500,
+        return Response({
+            'status': 500,
             'message': 'failed',
             'data': str(e),
-        }
-        status = 500
-        
-    finally:
-        if cursor:
-            cursor.close()
-        if connect:
-            connect.close()
-            
-    return Response(data_content_dict,status=status)
+        }, status=500)
 
 @api_view(['POST'])
 def user_register(request):
