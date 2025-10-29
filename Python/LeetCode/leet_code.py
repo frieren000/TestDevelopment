@@ -1086,3 +1086,11 @@ def numberOfBeams(bank: List[str]) -> int:
             total += prev * curr
             prev = curr
     return total
+
+# 56. 仅含置位位的最小整数
+def smallestNumber(n: int) -> int:
+    res = 1
+    while res <= n:
+        res = (res <<  1) + 1
+    
+    return res
