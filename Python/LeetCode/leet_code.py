@@ -1094,3 +1094,7 @@ def smallestNumber(n: int) -> int:
         res = (res <<  1) + 1
     
     return res
+
+# 57. 形成目标数组的子数组最少增加次数 -- 差分
+def minNumberOperations(target: List[int]) -> int:
+        return target[0] + sum(max(0, target[i] - target[i - 1]) for i in range(1, len(target)))
