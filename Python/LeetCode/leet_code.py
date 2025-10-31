@@ -1098,3 +1098,15 @@ def smallestNumber(n: int) -> int:
 # 57. 形成目标数组的子数组最少增加次数 -- 差分
 def minNumberOperations(target: List[int]) -> int:
         return target[0] + sum(max(0, target[i] - target[i - 1]) for i in range(1, len(target)))
+
+# 58. 数字小镇中的捣蛋鬼
+def getSneakyNumbers(nums: List[int]) -> List[int]:
+    ans_list = []
+    nums_dict = defaultdict(int)
+    for i in nums:
+        nums_dict[i] += 1
+    for nums_keys in nums_dict.keys():
+        if nums_dict[nums_keys] > 1:
+            ans_list.append(nums_keys)
+    
+    return ans_list
