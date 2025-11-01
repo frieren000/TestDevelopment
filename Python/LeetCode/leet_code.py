@@ -1110,3 +1110,25 @@ def getSneakyNumbers(nums: List[int]) -> List[int]:
             ans_list.append(nums_keys)
     
     return ans_list
+
+# 59. 从链表中移除在数组中存在的节点
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+def modifiedList(nums: List[int], head: Optional[ListNode]) -> Optional[ListNode]:
+    nums_set = set(nums)
+    dummy = ListNode(0)
+    dummy.next = head
+
+    prev = dummy
+    curr = head
+
+    while curr:
+        if curr.val in nums_set:
+            prev.next = curr.next
+        else:
+            prev = curr
+        curr = curr.next
+    
+    return dummy.next
