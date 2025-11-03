@@ -1158,3 +1158,16 @@ def countUnguarded(m: int, n: int, guards: List[List[int]], walls: List[List[int
 
         # 统计没被保卫(值为 0)的格子数
         return sum(row.count(0) for row in guarded)
+
+# 61. 使绳子变成彩色的最短时间
+def minCost(colors: str, neededTime: List[int]) -> int:
+        ans = max_t = 0
+        for i, t in enumerate(neededTime):
+            ans += t
+            if t > max_t:
+                max_t = t
+            if i == len(colors) - 1 or colors[i] != colors[i + 1]:
+                # 遍历到了连续同色段的末尾
+                ans -= max_t  # 保留耗时最大的气球
+                max_t = 0  # 准备计算下一段的最大耗时
+        return ans
