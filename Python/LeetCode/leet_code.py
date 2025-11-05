@@ -1171,3 +1171,54 @@ def minCost(colors: str, neededTime: List[int]) -> int:
                 ans -= max_t  # 保留耗时最大的气球
                 max_t = 0  # 准备计算下一段的最大耗时
         return ans
+
+# 62. 计算子数组的 x-sum I
+def findXSum(nums: List[int], k: int, x: int) -> List[int]:
+    n = len(nums)
+    # 存储当前窗口内元素的频率
+    counts = {}
+    res = []
+
+    # 初始化第一个窗口
+    for i in range(k):
+        value = nums[i]
+        counts[value] = counts.get(value, 0) + 1
+
+    # 计算当前窗口的 x-sum
+    def cal_x_sum():
+        # 降序
+        sorted_items = sorted(counts.items(), key=lambda item: (-item[1], -item[0]))
+        # 处理唯一元素少于 x 的情况
+        l = len(sorted_items)
+        limit = x if x < l else l
+        
+        total_sum = 0
+        # 累加前 limit 个元素的和
+        for j in range(limit):
+            value, count = sorted_items[j]
+            total_sum += value * count
+        return total_sum
+
+    # 第一个窗口
+    res.append(cal_x_sum())
+
+    # 遍历所有长度为 k 的子数组
+    for i in range(n - k):
+        # 确定移出和移入窗口的元素值
+        out_value = nums[i]
+        in_value = nums[i + k]
+
+        # 移除最左侧的元素
+        count = counts.get(out_value, 0)
+        if count <= 1:
+            if out_value in counts:
+                del counts[out_value]
+        else:
+            counts[out_value] -= 1
+
+        # 将新元素添加到窗口
+        counts[in_value] = counts.get(in_value, 0) + 1
+        # 计算新窗口的 x-sum
+        res.append(cal_x_sum())
+
+    return res
