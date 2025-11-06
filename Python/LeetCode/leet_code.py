@@ -1222,3 +1222,47 @@ def findXSum(nums: List[int], k: int, x: int) -> List[int]:
         res.append(cal_x_sum())
 
     return res
+
+# 63. 电网维护
+class Solution:
+    def processQueries(self, n, connections, queries):
+
+        onlines = [True] * (n + 1)
+        parents = [value for value in range(n + 1)]
+
+        def find(x):
+            if parents[x] == x:
+                return x
+            parents[x] = find(parents[x])
+            return parents[x]
+
+        def union(x1, x2):
+            y1, y2 = find(x1), find(x2)
+            if y1 != y2:
+                parents[y1] = y2
+
+        for x1, x2 in connections:
+            union(x1, x2)
+
+        listMap = defaultdict(list)
+        for x in range(1, n + 1):
+            listMap[find(x)].append(x)
+
+        for stationList in listMap.values():
+            stationList.sort(reverse=True)
+
+        def minStation(x):
+            stationList = listMap[find(x)]
+            while stationList and not onlines[stationList[-1]]:
+                stationList.pop()
+            return stationList[-1] if stationList else -1
+
+        resultList = []
+        for operation, x in queries:
+            if operation == 2:
+                onlines[x] = False
+            elif onlines[x]:
+                resultList.append(x)
+            else:
+                resultList.append(minStation(x))
+        return resultList
