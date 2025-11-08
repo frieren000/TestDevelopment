@@ -1313,7 +1313,8 @@ def maxPower(stations: List[int], r: int, k: int) -> int:
 
 # 65. 使整数变为 0 的最少操作次数
 def minimumOneBitOperations(n: int) -> int:
-        if n == 0:
-            return 0
-        k = n.bit_length()
-        return (1 << k) - 1 - minimumOneBitOperations(n - (1 << (k - 1)))
+    ans = 0
+    while n:
+        ans ^= n
+        n //= 2
+    return ans
