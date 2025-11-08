@@ -35,11 +35,17 @@ def search_users_info(request):
 
         data_list = list(queryset.values())
 
-        return Response({
-            'status': 200,
-            'message': 'success',
-            'data': data_list,
-        }, status=200)
+        if data_list:
+            return Response({
+                'status': 200,
+                'message': 'success',
+                'data': data_list,
+            }, status=200)
+        else:
+            return Response({
+            'status': 500,
+            'message': '数据不存在!',
+        }, status=500)
 
     except Exception as e:
         return Response({
