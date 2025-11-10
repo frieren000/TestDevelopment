@@ -1330,3 +1330,21 @@ def countOperations(num1: int, num2: int) -> int:
             count += 1
             
         return count
+
+# 67. 将所有元素变为 0 的最少操作次数
+def minOperations(nums: List[int]) -> int:
+        ans = 0
+        top = -1  # 栈顶下标
+
+        for x in nums:
+            # 小于栈顶，说明需要增加一次操作
+            while top >= 0 and x < nums[top]:
+                top -= 1  # 出栈
+                ans += 1
+            # 栈空，说明这是一个新块的开始
+            # 比栈顶大的新值，是 “上坡” 的新台阶，压入等待处理
+            if top < 0 or x != nums[top]:
+                top += 1
+                nums[top] = x  # 入栈
+        
+        return ans + top + (nums[0] > 0)
