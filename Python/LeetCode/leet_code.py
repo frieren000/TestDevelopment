@@ -1348,3 +1348,19 @@ def minOperations(nums: List[int]) -> int:
                 nums[top] = x  # 入栈
         
         return ans + top + (nums[0] > 0)
+
+# 68. 一和零
+def findMaxForm(strs: List[str], m: int, n: int) -> int:
+    f  = [[0] * (n + 1) for _ in range(m + 1)]
+    sum0 = sum1 = 0
+    for s in strs:
+        cnt0 = s.count('0')
+        cnt1 = len(s) - cnt0
+        sum0 = min(sum0 + cnt0, m)
+        sum1 = min(sum1 + cnt1, n)
+        for j in range(sum0, cnt0 - 1, -1):
+            for k in range(sum1, cnt1 - 1, -1):
+                v = f[j - cnt0][k - cnt1] + 1
+                if v > f[j][k]:
+                    f[j][k] = v
+    return max(map(max, f))
