@@ -1,5 +1,6 @@
 import heapq
 import bisect
+from math import gcd
 from typing import List, Optional, Tuple, Set, Dict
 from collections import defaultdict, Counter, deque
 from itertools import accumulate, count, pairwise
@@ -1364,3 +1365,22 @@ def findMaxForm(strs: List[str], m: int, n: int) -> int:
                 if v > f[j][k]:
                     f[j][k] = v
     return max(map(max, f))
+
+# 69. 使数组所有元素变成 1 的最少操作次数
+def minOperations(self, nums: List[int]) -> int:
+        if gcd(*nums) > 1:
+            return -1
+        n = len(nums)
+        cnt1 = sum(x == 1 for x in nums)
+        if cnt1:
+            return n - cnt1
+
+        min_size = n
+        for i in range(n):
+            g = 0
+            for j in range(i, n):
+                g = gcd(g, nums[j])
+                if g == 1:
+                    min_size = min(min_size, j - i)
+                    break
+        return min_size + n - 1
