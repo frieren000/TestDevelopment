@@ -1384,3 +1384,16 @@ def minOperations(self, nums: List[int]) -> int:
                     min_size = min(min_size, j - i)
                     break
         return min_size + n - 1
+
+# 70. 将 1 移动到末尾的最大操作次数
+def maxOperations(s: str) -> int:
+        cnt = 0
+        ans = 0
+        past = ""
+        for i in s[::-1]:
+            if i == "1":
+                if past == "0":
+                    cnt += 1
+                ans += cnt
+            past = i
+        return ans
