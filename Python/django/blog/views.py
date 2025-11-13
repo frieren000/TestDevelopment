@@ -56,11 +56,9 @@ def search_users_info(request):
 
 @api_view(['POST'])
 def user_register(request):
-    cursor = None
-    connect = None
     try:
         data = request.data
-        
+
         name = data.get('name')
         phone_num = data.get('phone_num')
         email = data.get('email')
@@ -74,21 +72,17 @@ def user_register(request):
         if not all([phone_num, email, company, job, ipv4]):
             return Response({'message': '请填写完整信息！'}, status=400)
 
-        connect = pymysql.connect(**base_tools.database_config)
-        cursor = connect.cursor()
-
-        # 检查用户是否已存在
-        cursor.execute("SELECT 1 FROM users WHERE name = %s", (name,))
-        if cursor.fetchone():
+        if Users.objects.filter(name=name).exists():
             return Response({'message': '用户已存在!'}, status=400)
 
-        # 插入新用户
-        cursor.execute('''
-            INSERT INTO users(name, phone_num, email, company, job, ipv4) 
-            VALUES (%s, %s, %s, %s, %s, %s)
-        ''', [name, phone_num, email, company, job, ipv4])
-        
-        connect.commit()
+        Users.objects.create(
+            name=name,
+            phone_num=phone_num,
+            email=email,
+            company=company,
+            job=job,
+            ipv4=ipv4
+        )
 
         return Response({
             'code': 200,
@@ -96,15 +90,10 @@ def user_register(request):
         }, status=201)
 
     except Exception as e:
+        # 记录日志更佳，此处简化
         return Response({
             'message': f'服务器错误: {str(e)}'
         }, status=500)
-
-    finally:
-        if cursor:
-            cursor.close()
-        if connect:
-            connect.close()
             
 @api_view(['POST'])
 def files_uploader(request):
