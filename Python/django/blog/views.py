@@ -1,10 +1,9 @@
 import json
-import pymysql
+from .models import Users
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.files.storage import FileSystemStorage
-from tools import base_tools
-from .models import Users
+
 
 @api_view(['GET'])
 def hello(request):
@@ -108,8 +107,9 @@ def files_uploader(request):
             return Response(message_dict, status=status)
         
         else:
+            upload_file_path = '../django/uploader_files'
             upload_file = request.FILES['file']
-            save_file = FileSystemStorage(location=base_tools.upload_file_path)
+            save_file = FileSystemStorage(location=upload_file_path)
             file_name = save_file.save(upload_file.name, upload_file)
             message_dict = {
                 'message': '文件上传成功!',
