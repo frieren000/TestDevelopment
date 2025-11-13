@@ -1367,7 +1367,7 @@ def findMaxForm(strs: List[str], m: int, n: int) -> int:
     return max(map(max, f))
 
 # 69. 使数组所有元素变成 1 的最少操作次数
-def minOperations(self, nums: List[int]) -> int:
+def minOperations(nums: List[int]) -> int:
         if gcd(*nums) > 1:
             return -1
         n = len(nums)
