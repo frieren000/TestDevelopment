@@ -1397,3 +1397,54 @@ def maxOperations(s: str) -> int:
                 ans += cnt
             past = i
         return ans
+
+# 71. 统计1显著的字符串的数量
+def numberOfSubstrings(s: str) -> int:
+        n = len(s)
+        ans = 0
+        # s[0...i] 前缀中'0'的数量
+        prefix_zeros = 0
+
+        # left[k] 存储前缀'0'数量首次达到k时的索引
+        # right[k] 存储前缀'0'数量等于k的最新索引
+        left = [-2] * (n + 1)
+        right = [-2] * (n + 1)
+        
+        # 初始化
+        left[0] = -1
+        right[0] = -1
+
+        # 枚举子串结束位置
+        for i, char in enumerate(s):
+            if char == '0':
+                prefix_zeros += 1
+            
+            # 枚举可能的 '0' 的数量 c0
+            zero_start = 1 if char == '0' else 0
+            for c0 in range(zero_start, int(n**0.5) + 2):
+                # 子串最小长度 > 当前前缀长度，不可能满足
+                if c0 * c0 + c0 > i + 1:
+                    break
+                
+                # 目标前缀'0'数
+                target_zeros = prefix_zeros - c0
+                # 从未出现过
+                if target_zeros < 0 or left[target_zeros] == -2:
+                    continue
+                
+                # 起始
+                start_l = left[target_zeros]
+                # 结束
+                end_l = min(right[target_zeros], i - c0 * c0 - c0)
+                
+                # 存在合法的左端点
+                if start_l <= end_l:
+                    ans += (end_l - start_l + 1)
+
+            # 第一次出现这个数量的前缀'0'
+            if left[prefix_zeros] == -2:
+                left[prefix_zeros] = i
+            # 每次都更新right
+            right[prefix_zeros] = i
+        
+        return ans
