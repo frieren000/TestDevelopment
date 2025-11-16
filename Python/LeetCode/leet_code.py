@@ -1448,3 +1448,11 @@ def numberOfSubstrings(s: str) -> int:
             right[prefix_zeros] = i
         
         return ans
+
+# 72. 仅含1的子串数
+def numSub(s):
+        ones = s.split('0')
+        res = 0
+        for i in ones:
+            res += len(i) * (len(i)+1) / 2
+        return int(res % (10**9 + 7))
