@@ -1456,3 +1456,19 @@ def numSub(s):
         for i in ones:
             res += len(i) * (len(i)+1) / 2
         return int(res % (10**9 + 7))
+
+# 73. 是否所有 1 都至少相隔 k 个元素
+def kLengthApart(nums: List[int], k: int) -> bool:
+    prev_index = -1
+    
+    for i, num in enumerate(nums):
+        if num == 1:
+            if prev_index != -1 and i - prev_index - 1 < k:
+                return False
+            prev_index = i
+    
+    return True
+        
+nums = [1,0,0,1,0,1]
+k = 2
+print(kLengthApart(nums, k))
