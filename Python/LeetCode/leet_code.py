@@ -1469,6 +1469,10 @@ def kLengthApart(nums: List[int], k: int) -> bool:
     
     return True
         
-nums = [1,0,0,1,0,1]
-k = 2
-print(kLengthApart(nums, k))
+# 74. 1比特与2比特字符
+def isOneBitCharacter(bits: List[int]) -> bool:
+        n = len(bits)
+        i = 0
+        while i < n - 1:  # 循环直到剩下至多一个数字
+            i += bits[i] + 1  # 如果 bits[i] == 1 则跳过下一位
+        return i == n - 1  # 注意题目保证 bits[n-1] == 0，无需判断
