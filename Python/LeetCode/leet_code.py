@@ -1475,4 +1475,16 @@ def isOneBitCharacter(bits: List[int]) -> bool:
         i = 0
         while i < n - 1:  # 循环直到剩下至多一个数字
             i += bits[i] + 1  # 如果 bits[i] == 1 则跳过下一位
-        return i == n - 1  # 注意题目保证 bits[n-1] == 0，无需判断
+        return i == n - 1  # 注意题目保证 bits[n-1] == 0,无需判断
+
+# 75. 将找到的值乘以2
+def findFinalValue(nums: List[int], original: int) -> int:
+    flag = True
+    while flag:
+        if original in nums:
+            original = 2 * original
+            flag = True
+        else:
+            flag = False
+    
+    return original
