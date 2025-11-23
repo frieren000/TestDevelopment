@@ -1510,3 +1510,17 @@ def intersectionSizeTwo(intervals: List[List[int]]) -> int:
 # 77. 长度为 3 的不同回文子序列
 def countPalindromicSubsequence(s: str) -> int:
         return sum(len(set(s[s.index(c)+1:s.rindex(c)])) for c in set(s) if s.rindex(c)-s.index(c)>1) 
+
+# 78. 可被三整除的最大和
+def maxSumDivThree(nums: List[int]) -> int:
+        s = sum(nums)
+        if s % 3 == 0:
+            return s
+        a1 = sorted(x for x in nums if x % 3 == 1)
+        a2 = sorted(x for x in nums if x % 3 == 2)
+        if s % 3 == 2:
+            a1, a2 = a2, a1
+        ans = s - a1[0] if a1 else 0
+        if len(a2) > 1:
+            ans = max(ans, s - a2[0] - a2[1])
+        return ans
