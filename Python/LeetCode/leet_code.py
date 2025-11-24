@@ -1524,3 +1524,12 @@ def maxSumDivThree(nums: List[int]) -> int:
         if len(a2) > 1:
             ans = max(ans, s - a2[0] - a2[1])
         return ans
+
+# 79. 可被 5 整除的二进制前缀
+def prefixesDivBy5(nums: List[int]) -> List[bool]:
+        ans = [False] * len(nums)
+        x = 0
+        for i, bit in enumerate(nums):
+            x = (x << 1 | bit) % 5
+            ans[i] = x == 0
+        return ans
